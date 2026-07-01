@@ -33,9 +33,19 @@ export default function LeadsPage() {
   };
 
   const updateLeadStatus = async (leadId, nextStatus) => {
-    await API.patch(`/leads/${leadId}/status`, { status: nextStatus });
-    setSelectedLead(null);
-    await reloadLeads();
+    try {
+      const response = await API.patch(`/leads/${leadId}/status`, { status: nextStatus });
+      if (response.data.success) {
+        alert("Status updated successfully!");
+        setSelectedLead(null);
+        await reloadLeads();
+      } else {
+        alert("Failed to update status: " + response.data.message);
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+      alert("Error updating status: " + (error.response?.data?.message || error.message));
+    }
   };
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const leadRoutes = require("./routes/leadRoutes");
 
@@ -8,34 +9,45 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware - Enable CORS for all origins
 app.use(cors({
-  origin: "*", // Allow requests from any origin
+  origin: "*",
   credentials: false,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "ngrok-skip-browser-warning",
+  ],
 }));
-app.use(express.json());
 
-// Health Check
-app.get("/", (req, res) => {
-  res.json({
-    success: true,
-    message: "Automated Lead Management System API",
-    version: "1.0.0",
-  });
+// Add ngrok bypass headers for all responses
+app.use((req, res, next) => {
+  res.header("ngrok-skip-browser-warning", "true");
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,POST,PUT,PATCH,DELETE,OPTIONS"
+  );
+  res.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  next();
 });
 
-// Routes
+app.use(express.json());
+
+// API Routes
 app.use("/api/leads", leadRoutes);
 
-// 404 Handler
-app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: "Route not found",
-  });
+// ===============================
+// Serve React Production Build
+// ===============================
+
+// Change "../frontend/build" if your React folder has a different name
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
 });
 
 // Start Server
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 LMS Backend running on http://0.0.0.0:${PORT}`);
+  console.log(`🚀 LMS running on http://0.0.0.0:${PORT}`);
 });

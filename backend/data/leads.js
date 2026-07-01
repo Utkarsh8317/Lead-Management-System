@@ -8,7 +8,7 @@ const leads = [
     "source": "Website",
     "campaign": "Homepage",
     "assignedTo": "John",
-    "status": "New",
+    "status": "Contacted",
     "createdAt": "2026-06-28"
   },
   {
@@ -20,7 +20,7 @@ const leads = [
     "source": "Meta Ads",
     "campaign": "Summer Campaign",
     "assignedTo": "Amit",
-    "status": "Contacted",
+    "status": "Converted",
     "createdAt": "2026-06-29"
   },
   {
@@ -32,7 +32,7 @@ const leads = [
     "source": "Google Ads",
     "campaign": "Search Ads",
     "assignedTo": "Neha",
-    "status": "Qualified",
+    "status": "Contacted",
     "createdAt": "2026-06-27"
   },
   {
@@ -44,7 +44,7 @@ const leads = [
     "source": "Website",
     "campaign": "Contact Form",
     "assignedTo": "Rohit",
-    "status": "New",
+    "status": "Converted",
     "createdAt": "2026-06-29"
   },
   {
@@ -56,7 +56,7 @@ const leads = [
     "source": "Meta Ads",
     "campaign": "Lead Campaign",
     "assignedTo": "Anjali",
-    "status": "Contacted",
+    "status": "Converted",
     "createdAt": "2026-06-26"
   },
   {

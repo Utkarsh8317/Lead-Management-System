@@ -81,8 +81,24 @@ const updateLeadStatus = (req, res) => {
     });
   }
 
+  if (lead.status === status) {
+    return res.json({
+      success: true,
+      message: "Status already set to this value",
+      data: lead,
+    });
+  }
+
   lead.status = status;
-  saveLeads();
+  try {
+    saveLeads();
+  } catch (error) {
+    console.error("Error saving leads:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error saving status update",
+    });
+  }
 
   return res.json({
     success: true,
