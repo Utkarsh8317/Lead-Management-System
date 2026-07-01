@@ -4,10 +4,15 @@ const cors = require("cors");
 const leadRoutes = require("./routes/leadRoutes");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors());
+// Middleware - Enable CORS for all origins
+app.use(cors({
+  origin: "*", // Allow requests from any origin
+  credentials: false,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 app.use(express.json());
 
 // Health Check
@@ -31,6 +36,6 @@ app.use((req, res) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
-  console.log(`🚀 LMS Backend running on http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 LMS Backend running on http://0.0.0.0:${PORT}`);
 });
