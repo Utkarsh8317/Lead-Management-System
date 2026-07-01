@@ -27,7 +27,9 @@ export default function LeadsPage() {
     if (source) params.set("source", source);
     if (status) params.set("status", status);
 
-    window.open(`http://localhost:5000/api/leads/report?${params.toString()}`);
+    // Use API base URL instead of hardcoded localhost
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+    window.open(`${apiBaseUrl}/leads/report?${params.toString()}`);
   };
 
   const updateLeadStatus = async (leadId, nextStatus) => {
